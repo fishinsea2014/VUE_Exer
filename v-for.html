@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>VUE bind Exer</title>
+    <!-- production version, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>   
+    <script>
+    window.onload = function() {
+        new Vue({
+            el : '#my',
+            data : {
+                msg:'hello world',
+                age : 18,
+                flag:true,
+                arr:['a','b','c'],
+                obj:{name:'abc',id:1},
+                lists:[{name:'abc1',id:1},{name:'abc2',id:2},{name:'abc3',id:3}]
+            },
+
+            methods:{
+                click1:function(){
+                    this.age = 20; //this is Vue object
+                    this.flag = true;
+                },
+                mouseover:function(){
+                    this.msg="movse over";
+                },
+                mouseout:function(){
+                    this.msg="movse out";
+                },
+                dbclick:function(){
+                    this.msg="Double click";
+                    this.flag = false;
+                    this.age= 10;
+                }
+            }
+        })}
+    
+    </script>
+</head>
+<body>
+    <div id = "my">
+        <p>{{msg}}.  I'm {{age}}</p>
+        <ul>
+            <li v-for ="(item,index) in arr">{{index}} : {{item}}</li>
+            <li>==================</li>
+            <li v-for ="(value,key) in obj">{{key}} : {{value}}</li>
+            <li>==================</li>
+            <li v-for ="(value,index) in lists">{{index}} : {{value}}</li>
+        </ul>
+       
+        <!-- v-on define event, could be replace by "@" -->
+        <button v-on:click="click1">Click1</button>
+        <button v-on:mouseover="mouseover" v-on:mouseout="mouseout">mouseover</button>
+        <button v-on:mouseout="mouseout">mouse out</button>
+        <button @dblclick="dbclick">Double click here</button>
+
+        <!-- Display when conditions are met -->
+        <button v-show="flag">Show when flag</button>
+        <div v-if="age==18">Age:{{age}}</div>
+        <div v-else-if="age==20">Age:{{age}}</div>
+        <div v-else >Age: not 18 and 20.</div>
+
+        <div>
+            <p v-if="flag==true? age=18 : age =20">{{flag}} : {{age}}</p>
+        </div>
+    </div>
+
+    
+    
+
+</body>
+</html>

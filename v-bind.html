@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>VUE bind Exer</title>
+    <!-- production version, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>   
+    <script>
+    window.onload = function() {
+        new Vue({
+            el:'#my',
+            data:{
+                msg:'hello world',
+                age:18,
+                flag:true,
+                title1:'Pic1',
+                title2:'pic2',
+                a1:'a1',
+                a2:'a2',
+                aa:'a3',
+                a4:{color:'#000'},
+                a5:{color:'#f00'},
+                url:'http://p1.qzone.la/upload/20150222/yk961fx2.jpg',
+                url2:'http://img.besoo.com/file/201705/16/0940316445908.jpg'
+            },
+            methods:{
+                changeFlag : () =>{
+                    this.flag=false;
+                },
+
+                changePic : () =>{
+                    this.url = 'http://img.besoo.com/file/201705/16/0940316445908.jpg';
+                    this.msg = "hahaha"
+                }
+            }
+        })}
+    
+    </script>
+    <style>
+    .aBlack {
+        color: black;
+        font-size: 2em;
+    }
+    .a1 {
+        color: red;
+        font-size:25px;
+        border:1px solid #f60;
+        background:#f90;
+    }
+
+    .a2 {
+        color: blue;
+    }
+    
+    </style>
+</head>
+<body>
+    <div id = "my">
+        <!-- Dynamic pics, "v-bind" == ":"  -->
+        <img :src = "url" :title ="title1" />
+        <img v-bind:src = "url" :title ="title2" />
+        <div :class="a2">Sould be red</div> <!--a2 is a variable-->
+        <div :class="flag? a1 : a2">Sould be red</div>
+        <!-- Multiple refrence class -->
+        <div :class=['aBlack',a2]>Muitiple classes sample</div> <!--a2 is a variable, 'aBlace' is not variable -->
+
+        <!-- Reference JSON object -->
+        <div :class="{a2:flag, a1:!flag}">Reference a JSON object</div>
+
+        <!-- Define inline style -->
+        <div :style="{color:'green', fontSize:'20px',marginTop:'20px' }">Inline Style</div>
+        <div :style="a5">Inline Style from variable</div>
+
+        <!-- Ternary operator -->
+        <div :style="flag? a4: a5">Ternary operator, {{msg}}</div>
+
+        <button @click="changeFlag">Change Flag</button>
+        <!-- <button @click="changePic">Change Pic</button> -->
+
+    </div>
+
+    
+    
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>VUE tab</title>
+    <!-- production version, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+ 
+    <script>
+    window.onload = function() {
+        new Vue({
+            el : '#my',
+            data : {
+               value: 'model value',
+               single : false,
+               arr:['2'],
+               radioValue: 1,
+               items:[{text:'Dancing',value:'1'},
+               {text:'Shopping',value:'0'},
+               {text:'Singing',value:'2'}],
+               selected:"0"
+
+
+            },
+
+            methods:{
+               
+            }
+        })}
+    
+    </script>
+    <style>
+        [value]{
+            color: brown;
+        }
+       
+    </style>
+</head>
+<body>
+    <div id = "my">
+        <p>{{value}}</p>
+       <input type="text" v-model="value" :disabled="value=='a'" /> <!--display synchronously in p. If input a, then disable input-->
+       <div>
+            <input type="checkbox" v-model="single"  /> Single item 
+            <!-- A group of check box -->
+            <input type="checkbox" v-model="arr" value="0" /> Teacher
+            <input type="checkbox" v-model="arr" value="1" /> Student
+            <input type="checkbox" v-model="arr" value="2" /> Tutor
+            {{arr}}
+       </div>
+       <div>
+           <!-- Redio button -->
+           <input type="radio" v-model="radioValue" name="test"/>Male
+           <input type="radio" v-model="radioValue" name="test"/>Famale
+           {{radioValue}}
+       </div>
+
+       <div>
+           <!-- Drop down -->
+           <select v-model="selected">
+               <option v-for="item in items" :value="item.value">{{item.text}}</option> <!-- :value means that the value is variable-->
+               <!-- <option>Singing</option>
+               <option>Dancing</option>
+               <option>Shopping</option> -->
+           </select>
+           Slelected: {{selected}}
+       </div>
+
+    </div>
+
+    
+    
+
+</body>
+</html>

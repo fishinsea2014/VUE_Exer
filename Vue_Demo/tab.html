@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>VUE tab</title>
+    <!-- production version, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+ 
+    <script>
+    window.onload = function() {
+        new Vue({
+            el : '#my',
+            data : {
+               cur : 0,
+               tabTitle: ['Title list 1','Title list 2','Title list 3'],
+               tabContent: ['Content 1','Content 2', 'Content 3']
+               
+            },
+
+            methods:{
+               
+            }
+        })}
+    
+    </script>
+    <style>
+        ul, li {
+            padding: 0;
+            margin: 0;
+        }
+
+        .tab-tit li{
+            padding: 10px, 15px;
+            text-align: center;
+            list-style: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 1em;
+        }
+
+        .tab-tit .active{
+            color: #09f;
+            border-bottom: 1px solid #09f;
+            border-left:  1px solid #09f;            
+        }
+
+        .tab-con div{
+            margin: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id = "my">
+       <ul class="tab-tit">
+           <li v-for="(title,index) in tabTitle" @click="cur=index" :class="{active:cur==index}">{{title}}</li>
+           <!-- <li @click="cur=0" :class="{active:cur==0}">Tab 1</li>
+           <li @click="cur=1" :class="{active:cur==1}">Tab 2</li>
+           <li @click="cur=2" :class="{active:cur==2}">Tab 3</li> -->
+       </ul>
+       <div class="tab-con">
+           <div v-for="(content,index) in tabContent" v-show="cur==index">{{content}}</div>
+           <!-- <div v-show="cur==0">Content 1</div>
+           <div v-show="cur==1">Content 2</div>
+           <div v-show="cur==2">Content 3</div> -->
+       </div>
+    </div>
+
+    
+    
+
+</body>
+</html>
