@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- key press
+   // Event object, event.type, event.target (event element), event.stopPropagation()
+   //event.preventDefault() , cancel event default actions
+
+-->
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>VUE bind Exer</title>
+    <script src="vue/vue.js"></script>   
+    <script>
+    window.onload = function() {
+        new Vue({
+            el:'#my',
+            data:{
+                value:'12345',
+                curTime: Date.now(),
+                curTime1:'1525918210000'
+            },
+            methods:{
+              key: function () {
+                  console.log("key 13");
+              },
+
+              showA:function(){
+                    console.log('AAA');
+                },
+                showB:function(){
+                    console.log('BBBB');
+                },
+                showC:function(e){
+                    console.log('CCCC');
+                   // e.stopPropagation();
+                },
+                open:function(e){
+                    console.log('open');
+                    //e.preventDefault();
+                },
+            },
+
+            filters: {
+                number: function(data,n) {
+                    return data.toFixed(n);
+                },
+
+                getDate: function(data){
+                    var d = new Date(data );
+                    return d.getFullYear() + '-' +(d.getMonth()+1) + '-' +d.getDate()+' | '+d.getDay();
+                }
+            }
+        })}
+    
+    </script>
+    <style>
+    
+    
+    </style>
+</head>
+<body>
+    <div id = "my">
+       <button @keydown.enter="key()"> Key 13</button>
+       <!-- composite keyboard -->
+       <button @keydown.a.c="key()"> Key 13</button>
+       <!-- event propogation -->
+       <div @click="showA()">A
+        <div  @click="showB()">B
+            <div  @click="showC($event)">C</div>
+            <div  @click.stop="showC($event)">C</div> <!--stop the propogation-->
+        </div>
+    </div>
+
+        <!-- Cancle default event -->
+        <div>
+            <a href="http://www.baidu.com"  @click="open($event)"> Baidu</a>
+            <br />
+            <a href="http://www.baidu.com"  @click.prevent="open($event)"> Baidu</a> <!--stop opning baidu.com-->
+        </div>
+
+        <!-- Filter -->
+        <div>
+            <div>{{3.1415 | number(4)}}</div>  <!--Keep two decimal places-->
+            <!-- <div>{{curTime1 | getDate()}}</div> -->
+            <div>{{curTime | getDate }}</div> <!--Get current date and day-->
+
+        </div>
+
+    
+    </div>
+
+
+    </div>
+
+    
+    
+
+</body>
+</html>
