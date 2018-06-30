@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!-- @author Jason 
+    Define three object, A, B and C. A and B send data to C.
+
+-->
+
 <html>
 
 <head>
@@ -9,7 +14,7 @@
     <script src="vue/vue.js"></script>
     <script>
         //Define a null object, use to triger and monitor instances
-        var Bus = new Vue()
+        var Monitor = new Vue()
 
         var A = {
             template: '#a',
@@ -19,7 +24,7 @@
 
             methods: {
                 send: function () {
-                    Bus.$emit('data-a', this.name);
+                    Monitor.$emit('data-a', this.name);
                 }
             }
         }
@@ -32,7 +37,7 @@
 
             methods: {
                 send: function () {
-                    Bus.$emit('data-b', this.name);
+                    Monitor.$emit('data-b', this.name);
                 }
             }
         }
@@ -48,11 +53,11 @@
 
             mounted: function () {
                 //Here use => method, and the 'this' in function(){} will not work.
-                Bus.$on('data-a', name => {  //$on receive data
+                Monitor.$on('data-a', name => {  //$on receive data
                     this.nameA = name;
                 });
 
-                Bus.$on('data-b', name => {
+                Monitor.$on('data-b', name => {
                     this.nameB = name;
                 });
             }
