@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!-- Component is extended HTML elements, is encapsulated to use.
+    There are three ways to create components.
+
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>VUE Component Exer</title>
+    <script src="vue/vue.js"></script>
+    <script>
+        window.onload = function () {
+
+            //Way1: Define component constructor first, then use it to define component
+            // var myComponent = Vue.extend({
+            //     template:'<h2>This is first component creation way.</h2>'
+            // });
+            // Vue.component('hello',myComponent);
+
+            //Use component constructer first.
+            var myComponent = Vue.extend({
+                template: '<h3> Component template</h3>'
+            })
+            //Reference created component
+            Vue.component('hello', myComponent);
+
+            //Way2: 
+            Vue.component('component2', {
+                template: '<h2>This is second way to define component.</h2>'
+            })
+
+            new Vue({
+                el: '#my',
+                data: {
+                    value: '12345',
+                    flag: 'my-tab',
+                    flag2: 'my-c1'
+
+                },
+                methods: {
+                    showA: function () {
+                        console.log('AAA');
+                    }
+                },
+
+                components: {   //Way3: define local components
+                    'my-address': {
+                        template: '<h3>My address is Wellington</h3>'
+                    },
+
+                    'local-component': {  // component name could not use capital letter
+                        template: '<h3>welcome to 1</h3>'
+                    },
+
+                    'component-html': {
+                        template: '#componentHtml',  //Define component in <template> tags
+                        data: function () {
+                            return {
+                                title: 'Component exercise',
+                                lists: [1, 2, 3, 4, 5]
+                            }
+                        }
+                    },
+                    'my-tab': {
+                        template: '#myTab',
+                        data: function () {
+                            return {
+                                tabTitle: ['tab1', 'tab2', 'tab3'],
+                                tabMain: ['content 1', 'content 2', 'content 3'],
+                                cur2: 1
+                            }
+                        }
+                    },
+
+                    'my-slot': {
+                        template: '#mySlot'
+                    },
+
+                    'my-c1': {
+                        template: '<h3>{{x}}</h3>',
+                        data: function () {
+                            return {x: Math.random()}
+                        }
+                    },
+
+                    'my-c2': {
+                        template: '<h3>{{y}}</h3>',
+                        data: function () {
+                           return { y: Math.random()}
+                        }
+                    }
+
+
+                }
+
+
+
+            })
+        }
+
+    </script>
+    <style>
+    </style>
+</head>
+<style>
+    ul,
+    li {
+        padding: 0;
+        margin: 0;
+    }
+
+    .tab-tit li {
+        padding: 10px 15px;
+        text-align: center;
+        list-style: none;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .tab-tit .active {
+        color: #09f;
+        border-bottom: 1px solid #09f;
+    }
+
+    .tab-con div {
+        margin: 30px;
+    }
+</style>
+<template id='componentHtml'>
+    <div>
+        <h1>{{title}}</h1>
+        <!--Must has this div at the begining-->
+        <ul>
+            <li v-for='i in lists'>{{i}}</li>
+        </ul>
+    </div>
+</template>
+
+<template id='myTab'>
+    <div>
+        <ul class="tab-tit">
+            <li v-for="(title,index) in tabTitle" @click="cur2=index" :class="{active:cur2==index}">{{title}}</li>
+        </ul>
+        <div class="tab-con">
+            <div v-for="(m,index) in tabMain" v-show="cur2==index">{{m}}</div>
+        </div>
+    </div>
+</template>
+
+<template id='mySlot'>
+    <div>
+        <p>This is my slot</p>
+        <slot name='s1'>slot 1</slot>
+        <!-- <slot name='s2'>slot 2</slot> -->
+    </div>
+</template>
+
+<body>
+    <div id="my">
+        <!-- Reference in HTML body -->
+        <hello></hello>
+        <!-- <component2></component2> -->
+        <!-- <local-component></local-component> -->
+        <my-address v-if="flag=='my-address'"></my-address>
+        <!-- <component-html ></component-html> -->
+        <my-tab v-if="flag=='my-tab'"></my-tab>
+        <my-slot>
+            <ul slot='s1'> this is s1
+                <li>s11</li>
+                <li>s12</li>
+                <li>s13</li>
+                <li>s14</li>
+            </ul>
+            <ul slot='s2'> this is s2 slot
+                <li>s21</li>
+                <li>s22</li>
+                <li>s23</li>
+                <li>s24</li>
+            </ul>
+        </my-slot>
+        <div>
+        <!-- Dynamic Model -->
+        <button @click="flag='my-tab'">Show a templete of my-tab</button>
+        <button@click="flag='my-address'">Show a templete of my-address</button>
+            </div>
+        <div>====Next keep alive</div>
+        <button @click="flag2='my-c1'">my-c1</button>
+        <button @click="flag2='my-c2'">my-c2</button>
+        <!--keep-alive 缓存非活动组件   重新创建实例化-->
+        <keep-alive>
+            <component :is="flag2"></component>
+        </keep-alive>
+
+
+    </div>
+
+
+
+
+</body>
+
+</html>

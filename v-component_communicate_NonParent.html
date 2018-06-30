@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>VUE bind Exer</title>
+    <!-- production version, optimized for size and speed -->
+    <script src="vue/vue.js"></script>
+    <script>
+        //Define a null object, use to triger and monitor instances
+        var Bus = new Vue()
+
+        var A = {
+            template: '#a',
+            data: function () {
+                return { name: 'Name-a' };
+            },
+
+            methods: {
+                send: function () {
+                    Bus.$emit('data-a', this.name);
+                }
+            }
+        }
+
+        var B = {
+            template: '#b',
+            data: function () {
+                return { name: 'Name-b' };
+            },
+
+            methods: {
+                send: function () {
+                    Bus.$emit('data-b', this.name);
+                }
+            }
+        }
+
+        var C = {
+            template: '#c',
+            data: function () {
+                return {
+                    nameA: '',
+                    nameB: ''
+                };
+            },
+
+            mounted: function () {
+                //Here use => method, and the 'this' in function(){} will not work.
+                Bus.$on('data-a', name => {  //$on receive data
+                    this.nameA = name;
+                });
+
+                Bus.$on('data-b', name => {
+                    this.nameB = name;
+                });
+            }
+        }
+
+        var vm = null;
+        window.onload = function () {
+            vm = new Vue({
+                el: '#my',
+                data: {
+                },
+
+                components: { // local component
+                    'my-a': A,
+                    'my-b': B,
+                    'my-c': C
+                }
+            })
+        }
+
+    </script>
+</head>
+
+<template id="a">
+    <div>
+        <h3>Component a : {{name}}</h3>
+        <button @click="send">Send data to C</button>
+    </div>
+</template>
+
+<template id="b">
+    <div>
+        <h3>Component b : {{name}}</h3>
+        <button @click="send">Send data to C</button>
+    </div>
+</template>
+
+<template id="c">
+    <div>
+        <h3>Component c : Data from A: {{nameA}}. Data from B: {{nameB}}</h3>
+    </div>
+</template>
+
+
+
+<body>
+    <div id="my">
+        <my-a></my-a>
+        <my-b></my-b>
+        <my-c></my-c>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- Component is extended HTML elements, is encapsulated to use.
+    There are three ways to create components.
+
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>VUE Component Exer</title>
+    <script src="vue/vue.js"></script>
+    <script>
+        window.onload = function () {
+
+            //Way1: Define component constructor first, then use it to define component
+            // var myComponent = Vue.extend({
+            //     template:'<h2>This is first component creation way.</h2>'
+            // });
+            // Vue.component('hello',myComponent);
+
+            //Use component constructer first.
+            var myComponent = Vue.extend({
+                template: '<h3> Component template</h3>'
+            })
+            //Reference created component
+            Vue.component('hello', myComponent);
+
+            //Way2: 
+            Vue.component('component2', {
+                template: '<h2>Get paras from an arry in child:  {{num}}</h2>',
+                data : function(){
+                    return{
+                        msg:"The second welcome "
+                    }
+                },
+                props: ['num']                     //Parent use data in children
+            })
+
+            Vue.component('component3', {
+                template: '<h2>This is second way to define component writen by {{namep}} and msg: {{msgp}}</h2>',
+                data : function(){
+                    return{
+                        msg:"The second welcome "
+                    }
+                },
+                props: ['namep', 'msgp']                     //Parent use data in children
+            })
+
+            new Vue({
+                el: '#my',
+                data: {
+                    value: '12345',
+                    msg: 'welcome to ...',
+                    name:'Jason',
+                    arr:[1,2,3,4,5]
+
+                },
+                methods: {
+                    showA: function () {
+                        console.log('AAA');
+                    }
+                },
+
+                components: {   //Way3: define local components
+                    'my-address': {
+                        template: '<h3>My address is Wellington</h3>'
+                    },
+
+                    'component-html': {
+                        template: '#componentHtml',  //Define component in <template> tags
+                        data: function () {
+                            return {
+                                title: 'Component exercise',
+                                lists: [1, 2, 3, 4, 5]
+                            }
+                        }
+                    }
+                }
+
+
+
+            })
+        }
+
+    </script>
+    <style>
+    </style>
+</head>
+<style>
+    ul,
+    li {
+        padding: 0;
+        margin: 0;
+    }
+
+    .tab-tit li {
+        padding: 10px 15px;
+        text-align: center;
+        list-style: none;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .tab-tit .active {
+        color: #09f;
+        border-bottom: 1px solid #09f;
+    }
+
+    .tab-con div {
+        margin: 30px;
+    }
+</style>
+<template id='componentHtml'>
+    <div>
+        <h1>{{title}}</h1>
+        <!--Must has this div at the begining-->
+        <ul>
+            <li v-for='i in lists'>{{i}}</li>
+        </ul>
+    </div>
+</template>
+
+
+<body>
+    <div id="my">
+        <!-- Reference in HTML body -->
+        <hello></hello>
+        <component2 v-for='a in arr' :num='a'></component2>
+        <component3 :namep='name' :msgp='msg'></component3>
+        
+        <my-address ></my-address>
+        
+        <component-html ></component-html>
+       
+
+    </div>
+
+
+
+
+</body>
+
+</html>
